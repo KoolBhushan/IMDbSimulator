@@ -1,0 +1,270 @@
+﻿<Window x:Class="IMDbSimulator.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:IMDbSimulator.UI.ViewModels"
+        xmlns:local="clr-namespace:IMDbSimulator.UI"
+        mc:Ignorable="d"
+        Title="IMDb Simulator" Height="650" Width="900"
+        WindowStartupLocation="CenterScreen" WindowState="Normal">
+    <Window.Resources>
+        <vm:MainViewModel x:Key="mainVM"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource mainVM}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Background="{StaticResource LightGrayColorBrush}"
+              Height="40"
+              Grid.Row="0"
+              VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="1">
+                <Border CornerRadius="5"
+                        Width="70"
+                        Height="28"
+                        Margin="10 0">
+                    <Border.Background>
+                        <ImageBrush Stretch="Fill" ImageSource="E:\CSharp\IMDbSimulator\Images\Imdb Logo Cropped.png"/>
+                    </Border.Background>
+                </Border>
+                <TextBox Width="600"
+                         Height="28"
+                         Text="{Binding MovieName, UpdateSourceTrigger=PropertyChanged, Mode=Default}"
+                         Style="{StaticResource RoundedTextBoxStyle}"/>
+
+                <Button Style="{DynamicResource CustomButton}"
+                        Width="30" Height="30"
+                        Background="Transparent"
+                        Command="{Binding SearchMovieCommand}">
+                    <Button.Content>
+                        <Image Source="E:\CSharp\IMDbSimulator\Images\Search_1-WF.png" Stretch="Fill"/>
+                    </Button.Content>
+                </Button>
+
+            </StackPanel>
+        </Grid>
+
+        <Grid Background="{StaticResource DarkGrayColorBrush}"
+              Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1"
+                  Width="400">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock  Text="Top Results"
+                    Style="{StaticResource CustomTextBlockStyle}"
+                    HorizontalAlignment="Center"
+                    FontSize="18"
+                    Grid.Row="0"
+                    Margin="10"/>
+
+                <ListView Margin="10"
+                          Grid.Row="1"
+                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                  ScrollViewer.CanContentScroll="False"
+                  Background="Transparent"
+                  ItemsSource="{Binding SearchMovie.Search}"
+                  SelectedValue="{Binding SelectedSearchResult}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel>
+                                    <TextBlock FontSize="16"
+                                        Foreground="DarkGray"
+                                        Margin="0 2 0 0"
+                                        TextWrapping="WrapWithOverflow"
+                                        Text="{Binding Title}"/>
+                                    <TextBlock FontSize="14"
+                                        Foreground="Gray"
+                                        Margin="0 2 0 2"
+                                        Text="{Binding Year}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+ 
+            
+            <StackPanel Grid.Column="2"
+                        Width="400">
+                <TextBlock  Text="Details"
+                    Style="{StaticResource CustomTextBlockStyle}"
+                    HorizontalAlignment="Center"
+                    FontSize="18"
+                    Grid.Column="2"
+                    Grid.Row="0"
+                    Margin="10"/>
+                
+                <TextBlock Text="{ Binding Movie.Title}"
+                           TextWrapping="WrapWithOverflow"
+                   Foreground="DarkGray"
+                   FontSize="22"
+                   Margin="10 5"
+                   Style="{StaticResource CustomTextBlockStyle}"/>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Movie.Released}"
+                       Grid.Column="0"
+                       Style="{StaticResource CustomTextBlockStyle}"/>
+                    <TextBlock Text="|"
+                       Grid.Column="1"
+                       Style="{StaticResource CustomTextBlockStyle}"/>
+                    <TextBlock Text="{Binding Movie.Rated}"
+                       Grid.Column="2"
+                       Style="{StaticResource CustomTextBlockStyle}"/>
+                    <TextBlock Text="|"
+                       Grid.Column="3"
+                       Style="{StaticResource CustomTextBlockStyle}"/>
+                    <TextBlock Text="{Binding Movie.Runtime}"
+                       Grid.Column="4"
+                       Style="{StaticResource CustomTextBlockStyle}"/>
+                </Grid>
+
+                <Grid Margin="10 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Width="150"
+                           Height="222"
+                           Source="{Binding Movie.Poster}"
+                           Grid.Column="0"
+                           Margin="0 0 10 0"/>
+
+                    <Grid Grid.Column="1"
+                          Margin="10 0 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Director"
+                                   Grid.Row="0"
+                                   Margin="8 0"
+                                   FontSize="16"
+                                   Foreground="Gray"/>
+                        <TextBlock Text="{Binding Movie.Director}"
+                                   TextWrapping="WrapWithOverflow"
+                                   Grid.Row="1"
+                                   Style="{StaticResource CustomTextBlockStyle}"/>
+                        <TextBlock Text="Genres"
+                                   Grid.Row="2"
+                                   Margin="8 0"
+                                   FontSize="16"
+                                   Foreground="Gray"/>
+                        <TextBlock Text="{Binding Movie.Genre}"
+                                   TextWrapping="WrapWithOverflow"
+                                   Grid.Row="3"
+                                   Style="{StaticResource CustomTextBlockStyle}"/>
+                        <TextBlock Text="Cast"
+                                   Grid.Row="4"
+                                   Margin="8 0"
+                                   FontSize="16"
+                                   Foreground="Gray"/>
+                        <TextBlock Text="{Binding Movie.Actors}"
+                                   TextWrapping="WrapWithOverflow"
+                                   Grid.Row="5"
+                                   Style="{StaticResource CustomTextBlockStyle}"/>
+                        <TextBlock Text="Box Office"
+                                   Grid.Row="6"
+                                   Margin="8 0"
+                                   FontSize="16"
+                                   Foreground="Gray"/>
+                        <TextBlock Text="{Binding Movie.BoxOffice}"
+                                   TextWrapping="WrapWithOverflow"
+                                   Grid.Row="7"
+                                   Style="{StaticResource CustomTextBlockStyle}"/>
+
+
+                    </Grid>
+                </Grid>
+                <TextBlock Text="Ratings"
+                           TextWrapping="WrapWithOverflow"
+                           Foreground="DarkGray"
+                           FontSize="22"
+                           Margin="10 5"
+                           Style="{StaticResource CustomTextBlockStyle}"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock  FontSize="16"
+                                Foreground="DarkGray"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Margin="17 2"
+                                Text="IMDb Rating"/>
+                    <TextBlock FontSize="16"
+                                Margin="20 2"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Text="{Binding Movie.ImdbRating, StringFormat={} /10}"
+                                Style="{StaticResource CustomTextBlockStyle}"/>
+
+                </StackPanel>
+                <ListView Grid.Row="1"
+                          BorderThickness="0"
+                          Background="Transparent"
+                          ItemsSource="{Binding Movie.Ratings}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock  FontSize="16"
+                                            Foreground="DarkGray"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Grid.Column="0"
+                                            Margin="10 2"
+                                            Text="{Binding Source}"/>
+                                <TextBlock FontSize="16"
+                                            Margin="10 2"
+                                            Grid.Column="2"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Value}"
+                                            Style="{StaticResource CustomTextBlockStyle}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+</Window>
